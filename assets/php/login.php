@@ -4,7 +4,7 @@ session_start();
 
 # Check if user is already logged in, If yes then redirect him to index page
 if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == TRUE) {
-  echo "<script>" . "window.location.href='./'" . "</script>";
+  echo "<script>" . "window.location.href='http://localhost/pancar/Main.html'" . "</script>";
   exit;
 }
 
@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               $_SESSION["loggedin"] = TRUE;
 
               # Redirect user to index page
-              echo "<script>" . "window.location.href='./'" . "</script>";
+              echo "<script>" . "window.location.href='http://localhost/pancar/Main.html'" . "</script>";
               exit;
             } else {
               # If password is incorrect show an error message
@@ -90,56 +90,59 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User login system</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-  <link rel="stylesheet" href="./css/main.css">
-  <link rel="shortcut icon" href="./img/favicon-16x16.png" type="image/x-icon">
-  <script defer src="./js/script.js"></script>
-</head>
+    <meta charset=UTF-8 />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scales1.0" />
 
+  <link rel="stylesheet" href="../css/login.css">
+  <title>Welcome</title>
+</head>
 <body>
-  <div class="container">
-    <div class="row min-vh-100 justify-content-center align-items-center">
-      <div class="col-lg-5">
-        <?php
-        if (!empty($login_err)) {
-          echo "<div class='alert alert-danger'>" . $login_err . "</div>";
-        }
-        ?>
-        <div class="form-wrap border rounded p-4">
-          <h1>Log In</h1>
-          <p>Please login to continue</p>
-          <!-- form starts here -->
-          <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" novalidate>
-            <div class="mb-3">
-              <label for="user_login" class="form-label">Email or username</label>
-              <input type="text" class="form-control" name="user_login" id="user_login" value="<?= $user_login; ?>">
-              <small class="text-danger"><?= $user_login_err; ?></small>
+    <section>
+        <div class="col-lg-5">
+            <?php
+            if (!empty($login_err)) {
+              echo "<div class='alert alert-danger'>" . $login_err . "</div>";
+            }
+            ?>
+
+            <div class="form-box">
+                <div class="form-value">
+                    <form id="loginForm" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" novalidate">
+                        <h2>Login</h2>
+                        <div class="inputbox">
+                            <ion-icon name="mail-outline"></ion-icon>
+                            <input type="text" class="form-control" name="user_login" id="user_login" value="<?= $user_login; ?>" required>
+                            <label for="">Email</label>
+                            <small class="text-danger"><?= $user_login_err; ?></small>
+                        </div>
+                        <div class="inputbox">
+                            <ion-icon name="lock-closed-outline"></ion-icon>
+                            <input type="password" class="form-control" name="user_password" id="password" required>
+                            <label for="">Password</label>
+                            <small class="text-danger"><?= $user_password_err; ?></small>
+                        </div>
+                        <div class="forget">
+                            <label for="togglePassword" id="togglePassword"><input type="checkbox">Show Pass</label>
+                        </div>
+                        <button type="submit" name="submit">LogIn</button>
+                    
+                        <div class="register">
+                            <p>Don't Have an Account? <a href="./register.php">Register Here!</a></p>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="mb-2">
-              <label for="password" class="form-label">Password</label>
-              <input type="password" class="form-control" name="user_password" id="password">
-              <small class="text-danger"><?= $user_password_err; ?></small>
-            </div>
-            <div class="mb-3 form-check">
-              <input type="checkbox" class="form-check-input" id="togglePassword">
-              <label for="togglePassword" class="form-check-label">Show Password</label>
-            </div>
-            <div class="mb-3">
-              <input type="submit" class="btn btn-primary form-control" name="submit" value="Log In">
-            </div>
-            <p class="mb-0">Don't have an account ? <a href="./register.php">Sign Up</a></p>
-          </form>
-          <!-- form ends here -->
+        </section>
+        
+        <div id="popup" class="popup">
+            <p>Email or Password is incorrect!</p>
+            <button onclick="hidePopup()">Close</button>
         </div>
-      </div>
-    </div>
-  </div>
+
+        </div>
+       
 </body>
 
 </html>
